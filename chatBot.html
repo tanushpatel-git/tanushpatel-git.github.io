@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Trana</title>
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #0ea5a4;
+      --muted: #94a3b8;
+      --bubble: #122033;
+      --user: #0ea5a4cc;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #071029 0%, #071726 60%);
+      color: #e6eef6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 980px;
+      height: 720px;
+      background: linear-gradient(180deg, rgba(10, 18, 28, 0.95), rgba(7, 14, 20, 0.98));
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(2, 6, 23, 0.7);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+    }
+
+    .left {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: linear-gradient(180deg, rgba(8, 22, 30, 0.95), rgba(5, 12, 18, 0.9));
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #06b6d4, #0ea5a4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #022;
+      font-size: 18px
+    }
+
+    .section-title {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px
+    }
+
+    .centers {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 6px
+    }
+
+    .center-card {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .center-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #dff7f6;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #022;
+      border: none
+    }
+
+    .btn.sos {
+      background: linear-gradient(90deg, #ef4444, #f97316);
+      color: white;
+      font-weight: 700
+    }
+
+    .chat-area {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .transcript {
+      flex: 1;
+      overflow: auto;
+      padding: 12px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02))
+    }
+
+    .msg {
+      display: flex;
+      gap: 10px;
+      margin: 8px 0;
+      align-items: flex-end
+    }
+
+    .bot .bubble {
+      background: var(--bubble);
+      color: #e6eef6;
+      border-radius: 12px 12px 12px 3px;
+      padding: 12px;
+      max-width: 74%
+    }
+
+    .user {
+      justify-content: flex-end
+    }
+
+    .user .bubble {
+      background: var(--user);
+      color: #012;
+      border-radius: 12px 12px 3px 12px;
+      padding: 10px;
+      max-width: 74%
+    }
+
+    .meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px
+    }
+
+    .input {
+      flex: 1;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: #e6eef6;
+      outline: none;
+      font-size: 14px
+    }
+
+    .quick-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.02)
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.02));
+      padding: 10px;
+      border-radius: 10px
+    }
+
+    a.link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600
+    }
+
+    footer.small {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 6px
+    }
+
+    @media (max-width:880px) {
+      .app {
+        grid-template-columns: 1fr;
+        height: 92vh
+      }
+
+      .left {
+        order: 2
+      }
+    }
+  </style>
+</head>
+
+<body>
+    <div class="app" role="application" aria-label="Trana Chatbot">
+      <div class="left" aria-hidden="false">
+        <div class="brand">
+          <div class="logo">Trana</div>
+          <div>
+            <h1 style="margin:0;font-size:18px">Trana</h1>
+            <p style="margin:0;font-size:12px;color:var(--muted)">Your disaster preparedness assistant</p>
+          </div>
+        </div>
+
+        <div class="section-title">Quick actions</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn sos" id="sosBtn">📞 SOS</button>
+          <button class="btn" id="shelterListBtn">🏕 Shelters</button>
+          <button class="btn" id="safetyTipsBtn">🛟 Safety Tips</button>
+        </div>
+
+        <div class="section-title">Known Evacuation Centers</div>
+        <div class="centers" id="centersList" aria-live="polite"></div>
+
+        <div class="card"><strong>Emergency numbers</strong>
+          <div class="meta">Police: <a class="link" href="tel:100">100</a> • Fire: <a class="link"
+              href="tel:101">101</a> • Ambulance: <a class="link" href="tel:102">102</a></div>
+        </div>
+        <div class="card"><strong>Offline use</strong>
+          <div class="meta">This chatbot works without servers — add your local shelter list below or connect it to a
+            backend for live updates.</div>
+        </div>
+      </div>
+
+      <main class="chat-area" id="chatArea">
+        <div class="transcript" id="transcript" aria-live="polite"></div>
+
+        <div class="card" style="padding:12px">
+          <div class="quick-row" id="quickRow"></div>
+          <div style="display:flex; gap:8px; margin-top:10px;">
+            <input id="userInput" class="input" placeholder="Ask: 'What should I do in flood?' or type 'shelter'..." />
+            <button class="btn primary" id="sendBtn" type="button">Send</button>
+          </div>
+          <div class="meta" style="margin-top:8px">Suggestions: <span id="suggestions"></span></div>
+        </div>
+
+        <footer class="small">Built for disaster preparedness • Tap SOS from mobile to call emergency services</footer>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+
+        /* ================
+           Data (strings everywhere)
+           ================ */
+        const evacuationCenters = [
+          { id: "1", name: "Govt High School - East Park", address: "East Park Rd, Sector 4", lat: "23.2599", lng: "77.4126", capacity: "250", phone: "+911234567890" },
+          { id: "2", name: "Community Hall - Riverside", address: "Riverside Colony", lat: "23.2615", lng: "77.4100", capacity: "180", phone: "+911234567891" },
+          { id: "3", name: "City Sports Complex", address: "Stadium Road", lat: "23.2570", lng: "77.4180", capacity: "500", phone: "+911234567892" }
+        ];
+
+        const intents = [
+          { patterns: ["help", "what can you do", "features"], reply: "I can give safety tips, list evacuation centers, provide directions, and call emergency numbers. Try: 'safety tips', 'nearest shelter', 'how to prepare for flood'." },
+          { patterns: ["safety tips", "safety", "tips"], reply: "Safety tips:\n• Follow official evacuation orders.\n• Move to higher ground for floods.\n• Keep a 72-hour emergency kit (water, meds, torch, radio).\n• Keep important documents in a waterproof bag.\n• Charge phones and save emergency numbers." },
+          { patterns: ["shelter", "evacuation", "evacuation center", "nearest shelter", "shelters"], action: "list_shelters" },
+          { patterns: ["flood", "what to do in flood", "flood safety"], reply: "If there's a flood:\n• Move to higher ground immediately.\n• Do not walk or drive through floodwaters.\n• Avoid contact with floodwater—may be contaminated.\n• Unplug electrical appliances if safe to do so.\n• Keep emergency kit and mask ready." },
+          { patterns: ["earthquake", "what to do in earthquake"], reply: "During an earthquake:\n• Drop, Cover, and Hold On (get under a sturdy table).\n• Stay away from windows, tall furniture.\n• After shaking stops, check for injuries, gas leaks and move to open space if needed." },
+          { patterns: ["first aid", "injury", "bleeding"], reply: "First aid basics:\n• For heavy bleeding — apply direct pressure and elevate.\n• For burns — cool under running water (not ice).\n• For unconscious but breathing — recovery position and call ambulance.\n• If not breathing, start CPR and call emergency services." },
+          { patterns: ["contacts", "numbers", "emergency numbers"], reply: "Emergency numbers:\nPolice: 100\nFire: 101\nAmbulance: 102\n(Replace with local numbers as needed)" },
+          { patterns: ["map", "directions", "google maps"], reply: "To get directions to a shelter, ask 'directions to [center name]' or click the Directions button next to a shelter." },
+          { patterns: ["hello", "hi", "hey"], reply: "Hi — I'm Trana. How can I help you prepare or stay safe today? Try 'safety tips' or 'nearest shelter'." }
+        ];
+
+        /* ================
+           Helpers
+           ================ */
+        const $ = sel => document.querySelector(sel);
+        const transcript = $('#transcript');
+        const quickRow = $('#quickRow');
+        const suggestionsEl = $('#suggestions');
+
+        function safeString(v) { return (v === null || v === undefined) ? '' : String(v); }
+        function escapeHtml(s) {
+          const str = safeString(s);
+          return str.replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": "&#39;" }[ch]));
+        }
+
+        function appendMessage(text, from = 'bot') {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'msg ' + (from === 'user' ? 'user' : 'bot');
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+          // escape and preserve newlines
+          bubble.innerHTML = escapeHtml(text).replace(/\n/g, '<br>');
+          wrapper.appendChild(bubble);
+          transcript.appendChild(wrapper);
+          transcript.scrollTop = transcript.scrollHeight;
+        }
+
+        /* Safely append a bubble that contains multiple shelter entries using DOM nodes (no innerHTML building) */
+        function appendShelterList(shelterArray, titleText = 'Nearest shelters') {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'msg bot';
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+
+          const title = document.createElement('strong');
+          title.textContent = titleText;
+          bubble.appendChild(title);
+
+          const container = document.createElement('div');
+          container.style.marginTop = '8px';
+          container.style.display = 'flex';
+          container.style.flexDirection = 'column';
+          container.style.gap = '10px';
+
+          shelterArray.forEach(s => {
+            const entry = document.createElement('div');
+            entry.style.marginBottom = '6px';
+
+            const nameEl = document.createElement('div');
+            nameEl.style.fontWeight = '700';
+            nameEl.textContent = safeString(s.name);
+            entry.appendChild(nameEl);
+
+            const metaEl = document.createElement('div');
+            metaEl.className = 'meta';
+            metaEl.textContent = `${safeString(s.address)} • Capacity: ${safeString(s.capacity)}`;
+            entry.appendChild(metaEl);
+
+            const actions = document.createElement('div');
+            actions.style.marginTop = '6px';
+            actions.style.display = 'flex';
+            actions.style.gap = '8px';
+            actions.style.alignItems = 'center';
+
+            // Call link (tel:) - use as-is (no encoding)
+            const callA = document.createElement('a');
+            callA.className = 'link';
+            callA.href = `tel:${safeString(s.phone)}`;
+            callA.textContent = 'Call';
+            actions.appendChild(callA);
+
+            // Directions link - encode full lat,lng pair as a single parameter
+            const dest = `${safeString(s.lat)},${safeString(s.lng)}`;
+            const mapUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
+            const dirA = document.createElement('a');
+            dirA.className = 'link';
+            dirA.href = mapUrl;
+            dirA.target = '_blank';
+            dirA.rel = 'noopener';
+            dirA.textContent = 'Directions';
+            actions.appendChild(dirA);
+
+            // Details button (shows full shelter info)
+            const detailsBtn = document.createElement('button');
+            detailsBtn.className = 'btn';
+            detailsBtn.type = 'button';
+            detailsBtn.textContent = 'Details';
+            detailsBtn.style.marginLeft = '6px';
+            detailsBtn.addEventListener('click', () => showShelter(safeString(s.id)));
+            actions.appendChild(detailsBtn);
+
+            entry.appendChild(actions);
+            container.appendChild(entry);
+          });
+
+          bubble.appendChild(container);
+          wrapper.appendChild(bubble);
+          transcript.appendChild(wrapper);
+          transcript.scrollTop = transcript.scrollHeight;
+        }
+
+        /* Single shelter detail bubble */
+        function appendShelterDetail(s) {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'msg bot';
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+
+          const title = document.createElement('strong');
+          title.textContent = safeString(s.name);
+          bubble.appendChild(title);
+
+          const meta = document.createElement('div');
+          meta.className = 'meta';
+          meta.textContent = `${safeString(s.address)} • Capacity: ${safeString(s.capacity)}`;
+          bubble.appendChild(meta);
+
+          const actions = document.createElement('div');
+          actions.style.marginTop = '8px';
+          actions.style.display = 'flex';
+          actions.style.gap = '8px';
+          actions.style.alignItems = 'center';
+
+          const callA = document.createElement('a');
+          callA.className = 'link';
+          callA.href = `tel:${safeString(s.phone)}`;
+          callA.textContent = 'Call shelter';
+          actions.appendChild(callA);
+
+          const dest = `${safeString(s.lat)},${safeString(s.lng)}`;
+          const mapUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
+          const dirA = document.createElement('a');
+          dirA.className = 'link';
+          dirA.href = mapUrl;
+          dirA.target = '_blank';
+          dirA.rel = 'noopener';
+          dirA.textContent = 'Get directions';
+          actions.appendChild(dirA);
+
+          bubble.appendChild(actions);
+          wrapper.appendChild(bubble);
+          transcript.appendChild(wrapper);
+          transcript.scrollTop = transcript.scrollHeight;
+        }
+
+        /* ================
+           Render left panel centers (DOM-based, safe)
+           ================ */
+        function renderCenters() {
+          const container = $('#centersList');
+          container.innerHTML = '';
+          evacuationCenters.forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'center-card';
+
+            const title = document.createElement('strong');
+            title.textContent = safeString(c.name);
+            card.appendChild(title);
+
+            const meta = document.createElement('div');
+            meta.className = 'meta';
+            meta.textContent = `${safeString(c.address)} • Capacity: ${safeString(c.capacity)}`;
+            card.appendChild(meta);
+
+            const actions = document.createElement('div');
+            actions.className = 'center-actions';
+
+            const callA = document.createElement('a');
+            callA.className = 'btn';
+            callA.href = `tel:${safeString(c.phone)}`;
+            callA.textContent = 'Call';
+            actions.appendChild(callA);
+
+            const dirBtn = document.createElement('button');
+            dirBtn.className = 'btn';
+            dirBtn.type = 'button';
+            dirBtn.textContent = 'Directions';
+            dirBtn.addEventListener('click', () => {
+              const dest = `${safeString(c.lat)},${safeString(c.lng)}`;
+              const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
+              window.open(url, '_blank', 'noopener');
+            });
+            actions.appendChild(dirBtn);
+
+            const detailsBtn = document.createElement('button');
+            detailsBtn.className = 'btn';
+            detailsBtn.type = 'button';
+            detailsBtn.textContent = 'Details';
+            detailsBtn.addEventListener('click', () => showShelter(safeString(c.id)));
+            actions.appendChild(detailsBtn);
+
+            card.appendChild(actions);
+            container.appendChild(card);
+          });
+        }
+
+        /* ================
+           Intent matching & handling
+           ================ */
+        function findIntent(text) {
+          const t = safeString(text).toLowerCase();
+          return intents.find(intent => intent.patterns.some(p => safeString(p).toLowerCase() && t.includes(String(p).toLowerCase())));
+        }
+
+        function showShelter(id) {
+          const sid = safeString(id);
+          const shelter = evacuationCenters.find(c => safeString(c.id) === sid);
+          if (!shelter) {
+            appendMessage("Shelter not found.");
+            return;
+          }
+          appendShelterDetail(shelter);
+        }
+
+        function handleUserInput(rawText) {
+          const raw = safeString(rawText).trim();
+          if (!raw) return;
+
+          // "directions to X" special-case
+          const dirMatch = raw.match(/directions to (.+)/i);
+          if (dirMatch) {
+            const q = safeString(dirMatch[1]).trim().toLowerCase();
+            const found = evacuationCenters.find(c => safeString(c.name).toLowerCase().includes(q) || safeString(c.address).toLowerCase().includes(q));
+            if (found) {
+              const dest = `${safeString(found.lat)},${safeString(found.lng)}`;
+              const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
+              window.open(url, '_blank', 'noopener');
+              appendMessage(`Opening directions to ${found.name}...`);
+            } else {
+              appendMessage("Sorry — couldn't find that shelter. Try 'nearest shelter' or check spelling.");
+            }
+            return;
+          }
+
+          const intent = findIntent(raw);
+          if (intent) {
+            if (intent.action === 'list_shelters') {
+              appendShelterList(evacuationCenters);
+            } else {
+              appendMessage(intent.reply);
+            }
+            return;
+          }
+
+          appendMessage("Sorry, I didn't understand. Try: 'safety tips', 'nearest shelter', 'flood', or 'earthquake'.");
+        }
+
+        /* ================
+           UI wiring
+           ================ */
+        const sendBtn = $('#sendBtn');
+        const userInput = $('#userInput');
+
+        if (sendBtn && userInput) {
+          sendBtn.addEventListener('click', () => {
+            const v = safeString(userInput.value).trim();
+            if (!v) return;
+            appendMessage(v, 'user');
+            userInput.value = '';
+            handleUserInput(v);
+          });
+          userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendBtn.click(); } });
+        }
+
+        const chips = ['Safety tips', 'Nearest shelter', 'What to do in flood', 'Earthquake', 'Emergency numbers'];
+        chips.forEach(t => {
+          const el = document.createElement('div');
+          el.className = 'chip';
+          el.textContent = t;
+          el.addEventListener('click', () => {
+            appendMessage(t, 'user');
+            handleUserInput(t);
+          });
+          quickRow.appendChild(el);
+        });
+
+        const sosBtn = $('#sosBtn');
+        if (sosBtn) {
+          sosBtn.addEventListener('click', () => {
+            const emergency = "100";
+            if (confirm(`Call emergency number ${emergency}?`)) {
+              window.location.href = `tel:${emergency}`;
+            }
+          });
+        }
+        $('#shelterListBtn').addEventListener('click', () => { appendMessage('shelters', 'user'); handleUserInput('shelters'); });
+        $('#safetyTipsBtn').addEventListener('click', () => { appendMessage('safety tips', 'user'); handleUserInput('safety tips'); });
+
+        suggestionsEl.textContent = chips.join(' • ');
+
+        function welcome() { appendMessage("Hello — I'm Trana. I can help with safety tips, shelters, and emergency numbers. Try: 'safety tips' or 'nearest shelter'."); }
+
+        // initialize UI
+        renderCenters();
+        welcome();
+
+        // debug hook
+        window._resqtech = { centers: evacuationCenters, renderCenters };
+
+      });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

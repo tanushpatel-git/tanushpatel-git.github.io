@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trana</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            width: 94vw;
+            padding: 12px 24px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .navbar .logo img {
+            width: 30px;
+            margin-right: 10px;
+        }
+
+        .navbar .logo span {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav2 {
+            color: red;
+            border-bottom: 2px solid red;
+        }
+
+        .navbar ul li {
+            cursor: pointer;
+            font-size: 20px;
+            color: grey;
+            height: 30px;
+        }
+
+        .navbar .right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification {
+            position: relative;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+
+        .navigation:hover {
+            color: red;
+            border-bottom: 2px solid red;
+            transition: 0.3s ease-in-out;
+        }
+
+
+        /* Page Title */
+        .container {
+            padding: 20px 40px;
+        }
+
+        .title {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Search + Filter */
+        .search-filter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .search-filter input {
+            width: 250px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .filter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter button {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Category Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .tabs button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #eee;
+            color: #333;
+        }
+
+        .tabs button.active {
+            background: #e53935;
+            color: #fff;
+        }
+
+        /* Modules Grid */
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .category {
+            font-size: 13px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .level {
+            float: right;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: #ffe082;
+        }
+
+        .title-card {
+            font-size: 17px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        .desc {
+            font-size: 13px;
+            color: #666;
+            height: 35px;
+            overflow: hidden;
+        }
+
+        .meta {
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            color: #444;
+        }
+
+        .progress-bar {
+            height: 6px;
+            border-radius: 6px;
+            background: #eee;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background: #3b82f6;
+        }
+
+        .module-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #e53935;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .module-button:hover {
+            background: #c62828;
+        }
+
+        /* last thing */
+        .card2 {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .card-header p {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .tags {
+            margin-top: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-right: 5px;
+            font-weight: 500;
+        }
+
+        .beginner {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .structured {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .certification {
+            background: #fce4ec;
+            color: #ad1457;
+        }
+
+        .btn2 {
+            padding: 10px 18px;
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn2:hover {
+            background: #0d47a1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .stat h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .stat p {
+            margin: 5px 0 0 0;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .blue {
+            color: #1976d2;
+        }
+
+        .green {
+            color: #2e7d32;
+        }
+
+        .purple {
+            color: #6a1b9a;
+        }
+
+        .orange {
+            color: #ef6c00;
+        }
+        .sos-btn{
+            border-radius: 20px;
+            background:linear-gradient(to right,white,red);
+            font-size: 20px;
+            transition: 0.5s;
+            border: none;
+        }
+        .sos-btn:hover{
+            scale: 1.1;
+            box-shadow: 0px 5px 15px red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <span>Trana</span>
+        </div>
+        <ul>
+            <li onclick="dashboard()" class="navigation nav1">Dashboard</li>
+            <li onclick="learningModule()" class="navigation nav2">Learning Modules</li>
+            <li onclick="virtualDrills()" class="navigation nav3">Virtual Drills</li>
+            <li onclick="alerts()" class="navigation nav4">Alerts</li>
+            <li onclick="report()" class="navigation nav5">Reports</li>
+            <li onclick="chatBot()" class="navigation nav6">Chat Bot</li>
+            <button class="sos-btn" onclick="playSOS()">🚨 SOS 🚨</button>
+        </ul>
+        <div class="right">
+            <div class="notification">🔔 <span class="badge">3</span></div>
+            <div>👤</div>
+        </div>
+    </div>
+    <main>
+        <!-- Main Content -->
+        <div class="container">
+            <div class="title">Learning Modules</div>
+            <div class="subtitle">Interactive disaster preparedness courses designed for educational institutions</div>
+
+            <!-- Search + Filter -->
+            <div class="search-filter">
+                <input type="text" placeholder="Search modules...">
+                <div class="filter">
+                    <button>Filter</button>
+                    <span>6 modules found</span>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="active">All 6</button>
+                <button>Natural Disasters 4</button>
+                <button>Fire Safety 1</button>
+                <button>Medical Emergency 1</button>
+                <button>Chemical Safety 1</button>
+            </div>
+
+            <!-- Modules Grid -->
+            <div class="modules">
+
+                <!-- Card 1 -->
+                <div class="card">
+                    <img src="Earthquake Safety.jpeg" alt="Earthquake Safety">
+                    <div class="card-content">
+                        <div class="category">Natural Disasters <span class="level">Intermediate</span></div>
+                        <div class="title-card">Earthquake Safety Protocols</div>
+                        <div class="desc">Learn essential earthquake safety measures and evacuation procedures for
+                            educational institutions...</div>
+                        <div class="meta"><span>⏱ 45 min</span><span>👥 1,250</span><span>⭐ 4.8</span></div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width:75%"></div>
+                        </div>
+                        <button class="module-button">Continue Learning</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card">
+                    <img src="Safety Drill.jpeg" alt="Fire Emergency">
+                    <div class="card-content">
+                        <div class="category">Fire Safety <span class="level"
+                                style="background:#a5d6a7;">Beginner</span>
+                        </div>
+                        <div class="title-card">Fire Emergency Response</div>
+                        <div class="desc">Comprehensive fire safety training including evacuation routes, extinguisher
+                            usage
+                            and emergency procedures...</div>
+                        <div class="meta"><span>⏱ 30 min</span><span>👥 980</span><span>⭐ 4.9</span></div>
+                        <button class="module-button">Start Module</button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card">
+                    <img src="Flood Drill.jpeg" alt="Flood Preparedness">
+                    <div class="card-content">
+                        <div class="category">Natural Disasters <span class="level">Intermediate</span></div>
+                        <div class="title-card">Flood Preparedness</div>
+                        <div class="desc">Understand flood risks and implement effective preparedness strategies
+                            including
+                            early warning systems...</div>
+                        <div class="meta"><span>⏱ 35 min</span><span>👥 750</span><span>⭐ 4.7</span></div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width:25%"></div>
+                        </div>
+                        <button class="module-button">Continue Learning</button>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="card">
+                    <img src="First Aid.jpeg" alt="First Aid">
+                    <div class="card-content">
+                        <div class="category">Medical Emergency <span class="level"
+                                style="background:#a5d6a7;">Beginner</span></div>
+                        <div class="title-card">First Aid Fundamentals</div>
+                        <div class="desc">Essential first aid skills for emergency situations including CPR, wound care,
+                            and
+                            life support techniques...</div>
+                        <div class="meta"><span>⏱ 60 min</span><span>👥 1,100</span><span>⭐ 4.9</span></div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width:50%"></div>
+                        </div>
+                        <button class="module-button">Continue Learning</button>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="card">
+                    <img src="cycloneImage.jpeg" alt="Evacuation">
+                    <div class="card-content">
+                        <div class="category">Natural Disasters <span class="level"
+                                style="background:#ffab91;">Advanced</span></div>
+                        <div class="title-card">Cyclone Safety & Evacuation</div>
+                        <div class="desc">Learn cyclone safety, securing your home, and evacuation procedures for
+                            schools
+                            and communities...</div>
+                        <div class="meta"><span>⏱ 50 min</span><span>👥 640</span><span>⭐ 4.6</span></div>
+                        <button class="module-button">Start Module</button>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="card">
+                    <img src="All Drill.jpeg" alt="Chemical Safety">
+                    <div class="card-content">
+                        <div class="category">Chemical Safety <span class="level"
+                                style="background:#ffab91;">Advanced</span></div>
+                        <div class="title-card">Chemical Spill Response</div>
+                        <div class="desc">Protocols and training for handling chemical emergencies, including evacuation
+                            and
+                            safe cleanup procedures...</div>
+                        <div class="meta"><span>⏱ 40 min</span><span>👥 420</span><span>⭐ 4.5</span></div>
+                        <button class="module-button">Start Module</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="card2">
+            <div class="card-header">
+                <div>
+                    <h3>Recommended Learning Path</h3>
+                    <p>Complete these modules in sequence for comprehensive disaster preparedness</p>
+                    <div class="tags">
+                        <span class="tag beginner">Beginner Friendly</span>
+                        <span class="tag structured">Structured Learning</span>
+                        <span class="tag certification">Certification Available</span>
+                    </div>
+                </div>
+                <button class="btn2">Start Learning Path</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <h2 class="blue">6</h2>
+                    <p>Total Modules</p>
+                </div>
+                <div class="stat">
+                    <h2 class="green">4.8</h2>
+                    <p>Average Rating</p>
+                </div>
+                <div class="stat">
+                    <h2 class="purple">5,150</h2>
+                    <p>Total Learners</p>
+                </div>
+                <div class="stat">
+                    <h2 class="orange">235</h2>
+                    <p>Hours of Content</p>
+                </div>
+            </div>
+        </div>
+        <audio id="sosSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
