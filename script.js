@@ -14,7 +14,7 @@ function viewAnalytics() {
     alert("📈 Viewing Analytics!");
 }
 function dashboard() {
-    document.location.href = ("dashboard.html");
+    document.location.href = ("index.html");
 }
 function learningModule() {
     document.location.href = ("learningModule.html")
